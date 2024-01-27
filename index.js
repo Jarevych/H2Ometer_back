@@ -4,9 +4,11 @@ const app = express();
 const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
+const path = require('path');
+
 
 dotenv.config({
-    path: process.env.NODE_ENV === 'production' ? '.envs/production.env' : './envs/development.env'
+    path: path.resolve(__dirname, 'main.env')
   });
 
 connectDB();
