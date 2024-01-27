@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const app = require("./app");
+const app = require(".");
 
 const { MONGO_URL, PORT = 3001 } = process.env;
 
