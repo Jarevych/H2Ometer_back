@@ -28,5 +28,8 @@
     "mongoose": "^6.9.2",
     "morgan": "^1.10.0",
     "nanoid": "^5.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }
