@@ -1,16 +1,27 @@
 const express = require("express");
-const logger = require("morgan");
+const connectDB = require("./config/database");
+const morgan = require("morgan");
 const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
 
-require("dotenv").config();
-
-const authRouter = require("./routes/auth");
+dotenv.config({
+  path: path.resolve(__dirname, "main.env"),
+});
 
 const app = express();
 
-const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+const authRouter = require("./routes/auth");
 
-app.use(logger(formatsLogger));
+dotenv.config({
+  path: path.resolve(__dirname, "main.env"),
+});
+
+connectDB();
+
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+app.use(morgan(formatsLogger));
+
 app.use(cors());
 app.use(express.json());
 
