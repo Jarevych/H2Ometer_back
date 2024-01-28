@@ -26,13 +26,13 @@ const userSchema = new Schema(
       type: Number,
       min: 1,
       max: 15000,
-      default: 1,
+      default: 2,
     },
     token: {
       type: String,
       default: "",
     },
-    avatarURL: {
+    avatar: {
       type: String,
     },
   },
