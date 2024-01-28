@@ -3,18 +3,18 @@ const connectDB = require("./configs/database");
 const app = express();
 
 const morgan = require("morgan");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
+
+const configPath = path.join(__dirname, "main.env");
+
+require("dotenv").config({ path: configPath });
+
 const waterRate = require("./routes/waterRate");
 
 const authRouter = require("./routes/auth");
 
 const userRouter = require("./routes/user");
-
-dotenv.config({
-  path: path.resolve(__dirname, "main.env"),
-});
 
 connectDB();
 
