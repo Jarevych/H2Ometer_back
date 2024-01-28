@@ -1,5 +1,5 @@
 const { ctrlWrapper } = require("../../helpers");
-const User = require("../../models/user");
+const { User } = require("../../models/user");
 
 const addAvatar = async (req, res) => {
   const { _id } = req.user;

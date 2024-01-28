@@ -32,7 +32,7 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
-    avatarURL: {
+    avatar: {
       type: String,
     },
   },
