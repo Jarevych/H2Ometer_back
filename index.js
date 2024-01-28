@@ -1,5 +1,5 @@
 const express = require("express");
-const connectDB = require("./config/database");
+const connectDB = require("./configs/database");
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
