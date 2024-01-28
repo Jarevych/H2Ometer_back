@@ -8,9 +8,9 @@ const { schemas } = require("../models/user");
 
 const router = express.Router();
 
-router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
+router.post("/signup", validateBody(schemas.registerSchema), ctrl.register);
 
-router.post("/login", validateBody(schemas.loginShema), ctrl.login);
+router.post("/signin", validateBody(schemas.loginShema), ctrl.login);
 
 router.post("/logout", authenticate, ctrl.logout);
 
