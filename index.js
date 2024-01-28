@@ -1,9 +1,9 @@
 const express = require("express");
+const connectDB = require("./configs/database");
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
-const connectDB = require("./configs/database");
 
 dotenv.config({
   path: path.resolve(__dirname, "main.env"),
@@ -11,7 +11,7 @@ dotenv.config({
 
 const app = express();
 
-// const authRouter = require("./routes/auth");
+const authRouter = require("./routes/auth");
 
 dotenv.config({
   path: path.resolve(__dirname, "main.env"),
@@ -25,7 +25,7 @@ app.use(morgan(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-// app.use("/users", authRouter);
+app.use("/users", authRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
