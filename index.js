@@ -1,14 +1,17 @@
 const express = require("express");
 const connectDB = require("./configs/database");
 const app = express();
-
 const morgan = require("morgan");
+const dotenv = require("dotenv");
 const cors = require("cors");
-const path = require("path");
+const path = require('path');
+const HttpError = require("./helpers/httpError");
+const  Water  = require("./models/water");
+const waterIntakeRouter=require('./routes/waterIntake')
 
-const configPath = path.join(__dirname, "main.env");
-
-require("dotenv").config({ path: configPath });
+dotenv.config({
+  path: path.resolve(__dirname, 'main.env')
+});
 
 const waterRate = require("./routes/waterRate");
 
@@ -16,15 +19,19 @@ const authRouter = require("./routes/auth");
 
 const userRouter = require("./routes/user");
 
+
 const updateRouter = require("./routes/userUpdate");
+
 
 connectDB();
 
-const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-app.use(morgan(formatsLogger));
-app.use(cors());
+app.use(cors())
 
+app.use(morgan('dev'));
 app.use(express.json());
+app.use(morgan('dev'));
+
+app.use("/api", waterIntakeRouter);
 
 app.use("/users", authRouter);
 app.use("/users", userRouter);
