@@ -5,6 +5,10 @@ const createOrUpdateRecord = async (req, res) => {
     const { time, amount } = req.body;
     const { formattedDate, existingRecord } = req;
 
+    if (amount > 5000) {
+      return res.status(400).json({ message: 'The amount of water consumed cannot exceed 5000 ml.' });
+  }
+
     if (existingRecord) {
       existingRecord.waterIntake.push({ time, amount });
       await existingRecord.save();
