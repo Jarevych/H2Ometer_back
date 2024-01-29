@@ -9,7 +9,7 @@ const verifyToken = async (req, res, next) => {
       .json({ message: "Access denied. Token not provided" });
   }
 
-  const token = authHeader.substring(7); // Відсікти "Bearer " з початку токену
+  const token = authHeader.substring(7);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_KEY);

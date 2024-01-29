@@ -1,6 +1,7 @@
 const { User } = require("../../models/user");
 const { updateSchema } = require("../../models/user").schemas;
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userUpdateController = async (req, res, next) => {
   try {
@@ -16,6 +17,11 @@ const userUpdateController = async (req, res, next) => {
     if (error) {
       res.status(400);
       throw new Error(error.details[0].message);
+    }
+
+    if (req.body.password) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      req.body.password = hashedPassword;
     }
 
     const updatedUser = await User.findByIdAndUpdate(
