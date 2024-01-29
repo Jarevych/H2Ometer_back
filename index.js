@@ -18,6 +18,11 @@ const waterRate = require("./routes/waterRate");
 const authRouter = require("./routes/auth");
 
 const userRouter = require("./routes/user");
+
+
+const updateRouter = require("./routes/userUpdate");
+
+
 connectDB();
 
 app.use(cors())
@@ -31,6 +36,7 @@ app.use("/api", waterIntakeRouter);
 app.use("/users", authRouter);
 app.use("/users", userRouter);
 app.use("/waterrate", waterRate);
+app.use("/users//update", updateRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

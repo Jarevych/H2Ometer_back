@@ -52,9 +52,18 @@ const loginShema = Joi.object({
   email: Joi.string().email().required(),
 });
 
+const updateSchema = Joi.object({
+  password: Joi.string().min(6).max(64),
+  email: Joi.string().email(),
+  name: Joi.string().max(32),
+  waterRate: Joi.number().min(1).max(15000),
+  avatarURL: Joi.string(),
+});
+
 const schemas = {
   registerSchema,
   loginShema,
+  updateSchema,
 };
 
 const User = model("user", userSchema);
