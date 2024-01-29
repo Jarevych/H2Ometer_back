@@ -16,6 +16,8 @@ const authRouter = require("./routes/auth");
 
 const userRouter = require("./routes/user");
 
+const updateRouter = require("./routes/userUpdate");
+
 connectDB();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -27,6 +29,7 @@ app.use(express.json());
 app.use("/users", authRouter);
 app.use("/users", userRouter);
 app.use("/waterrate", waterRate);
+app.use("/users//update", updateRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
