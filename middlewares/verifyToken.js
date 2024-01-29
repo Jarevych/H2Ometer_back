@@ -1,23 +1,23 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("..//models/user");
 
-const verifyToken = async (userToken) => {
-  if (!userToken) {
-    throw { status: 401, message: "Access denied. Token not provided" };
+const verifyToken = async (req, res, next) => {
+  const authHeader = req.header("Authorization");
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ message: "Access denied. Token not provided" });
   }
 
+  const token = authHeader.substring(7); // Відсікти "Bearer " з початку токену
+
   try {
-    const decoded = jwt.verify(userToken, process.env.JWT_KEY);
-    const user = await User.findById(decoded.userId);
-
-    if (!user) {
-      throw { status: 401, message: "Access denied. Invalid user" };
-    }
-
-    return user;
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    req.user = decoded;
+    next();
   } catch (error) {
-    throw { status: 401, message: "Access denied. Invalid token" };
+    return res.status(401).json({ message: "Access denied. Invalid token" });
   }
 };
 
-module.exports = { verifyToken };
+module.exports = verifyToken;
