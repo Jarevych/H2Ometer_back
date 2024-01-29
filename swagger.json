@@ -111,6 +111,79 @@
           }
         }
       }
+    },
+    "/users/avatar": {
+      "post": {
+        "summary": "Upload user avatar",
+        "description": "Endpoint for uploading and updating user avatar.",
+        "tags": ["User"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Avatar updated successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Avatar updated successfully",
+                  "avatarURL": "https://example.com/avatar.jpg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Missing fields"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -123,7 +196,7 @@
       }
     },
     "schemas": {
-      "UserUpdate": {
+      "Update user information": {
         "type": "object",
         "properties": {
           "password": { "type": "string", "minLength": 6, "maxLength": 64 },
@@ -137,6 +210,18 @@
           "email": "new.email@example.com",
           "name": "New Name",
           "waterRate": 5,
+          "avatarURL": "https://example.com/avatar.jpg"
+        }
+      },
+      "Update user avatar": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "description": "URL of the user's avatar"
+          }
+        },
+        "example": {
           "avatarURL": "https://example.com/avatar.jpg"
         }
       }
