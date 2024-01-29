@@ -1,0 +1,145 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "H2Ometer",
+    "version": "1.0.0",
+    "description": "Application for calculating the daily rate of water consumption.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT/"
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "http://localhost:3001"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User update endpoints"
+    }
+  ],
+  "paths": {
+    "/users/update/{userId}": {
+      "patch": {
+        "summary": "Update user information",
+        "description": "Endpoint for updating user details",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user to update",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 200,
+                  "data": {},
+                  "message": "User updated successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid userId format or validation error details"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "User with ID not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Please enter the token"
+      }
+    },
+    "schemas": {
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "password": { "type": "string", "minLength": 6, "maxLength": 64 },
+          "email": { "type": "string", "format": "email" },
+          "name": { "type": "string", "maxLength": 32 },
+          "waterRate": { "type": "number", "minimum": 1, "maximum": 15000 },
+          "avatarURL": { "type": "string" }
+        },
+        "example": {
+          "password": "newPassword123",
+          "email": "new.email@example.com",
+          "name": "New Name",
+          "waterRate": 5,
+          "avatarURL": "https://example.com/avatar.jpg"
+        }
+      }
+    }
+  }
+}

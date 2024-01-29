@@ -8,6 +8,8 @@ const path = require("path");
 const HttpError = require("./helpers/httpError");
 const Water = require("./models/water");
 const waterIntakeRouter = require("./routes/waterIntake");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 dotenv.config({
   path: path.resolve(__dirname, "main.env"),
@@ -28,6 +30,8 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(morgan("dev"));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api", waterIntakeRouter);
 
