@@ -4,12 +4,19 @@ const app = express();
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
+<<<<<<< Updated upstream
 const path = require("path");
 const HttpError = require("./helpers/httpError");
 const Water = require("./models/water");
 const waterIntakeRouter = require("./routes/waterIntake");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
+=======
+const path = require('path');
+const HttpError = require("./helpers/HttpError");
+const  Water  = require("./models/water");
+const waterIntakeRouter=require('./routes/waterIntake')
+>>>>>>> Stashed changes
 
 dotenv.config({
   path: path.resolve(__dirname, "main.env"),
