@@ -13,6 +13,11 @@ dotenv.config({
   path: path.resolve(__dirname, 'main.env')
 });
 
+const waterRate = require("./routes/waterRate");
+
+const authRouter = require("./routes/auth");
+
+const userRouter = require("./routes/user");
 connectDB();
 
 app.use(cors())
