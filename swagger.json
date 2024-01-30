@@ -23,8 +23,24 @@
   ],
   "tags": [
     {
+      "name": "Autentification",
+      "description": "Autentification endpoints"
+    },
+    {
       "name": "User",
       "description": "User update endpoints"
+    },
+    {
+      "name": "Water",
+      "description": "Water endpoints"
+    },
+    {
+      "name": "Month",
+      "description": "Month endpoints"
+    },
+    {
+      "name": "Today",
+      "description": "Today endpoints"
     }
   ],
   "paths": {
