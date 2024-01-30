@@ -1,10 +1,8 @@
-const express = require('express');
+const express = require("express");
 
-const router = express.Router()
-const updWaterRate = require('../controllers/waterRate/waterRate')
+const router = express.Router();
+const updWaterRate = require("../controllers/waterRate/waterRate");
 
-
-router.patch("./waterrate", updWaterRate)
-
+router.patch("/waterrate", updWaterRate);
 
 module.exports = router;
