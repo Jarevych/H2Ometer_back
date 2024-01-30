@@ -10,7 +10,7 @@ const waterConsumptionSchema = new Schema({
 const dailyWaterSchema = new Schema(
   {
     day: { type: String },
-    ownerID: {
+    ownerId: {
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
