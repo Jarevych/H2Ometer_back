@@ -5,9 +5,9 @@ const mongoose = require('mongoose');
 const deleteRecord = async (req, res) => {
   try {
     const recordId = req.params.id;
-    const { _id: ownerID } = req.user;
+    const { _id: ownerId } = req.user;
 
-    const existingRecord = await Water.findOne({ 'waterIntake._id': mongoose.Types.ObjectId(recordId),ownerID });
+    const existingRecord = await Water.findOne({ 'waterIntake._id': mongoose.Types.ObjectId(recordId),ownerId });
 
     if (!existingRecord) {
       console.log('No record found');

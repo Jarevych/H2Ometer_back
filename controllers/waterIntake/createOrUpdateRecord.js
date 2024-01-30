@@ -3,7 +3,7 @@ const Water = require('../../models/water');
 const createOrUpdateRecord = async (req, res) => {
   try {
     const { time, amount } = req.body;
-    const { _id: ownerID } = req.user;
+    const { _id: ownerId } = req.user;
     const { formattedDate, existingRecord } = req;
 
     if (amount > 5000) {
@@ -18,7 +18,7 @@ const createOrUpdateRecord = async (req, res) => {
       const newRecord = new Water({
         waterIntake: [{ time, amount }],
         day: formattedDate,
-        ownerID,
+        ownerId,
       });
       await newRecord.save();
       return res.status(201).json(newRecord);
