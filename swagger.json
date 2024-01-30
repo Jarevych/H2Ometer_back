@@ -23,8 +23,8 @@
   ],
   "tags": [
     {
-      "name": "Autentification",
-      "description": "Autentification endpoints"
+      "name": "Authentification",
+      "description": "Authentification endpoints"
     },
     {
       "name": "User",
