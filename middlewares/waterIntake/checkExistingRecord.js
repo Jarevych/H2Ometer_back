@@ -3,7 +3,8 @@ const Water = require('../../models/water');
 const checkExistingRecord = async (req, res, next) => {
   try {
     const { formattedDate } = req;
-    const existingRecord = await Water.findOne({ day: formattedDate });
+    const { _id: ownerID } = req.user;
+    const existingRecord = await Water.findOne({ day: formattedDate,ownerID });
 
     if (existingRecord) {
       req.existingRecord = existingRecord;

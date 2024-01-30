@@ -1,9 +1,12 @@
+const mongoose = require('mongoose');
 const Water = require('../../models/water');
 
 const getRecordById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const existingRecord = await Water.findById(id);
+    const { _id: ownerID } = req.user;
+
+    const existingRecord = await Water.findOne({ 'waterIntake._id': mongoose.Types.ObjectId(id), ownerID});
 
     if (!existingRecord) {
       return res.status(404).json({ message: 'No record found' });

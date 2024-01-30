@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const helperMongooseError  = require("../helpers/helperMongooseError");
+const helperMongooseError = require("../helpers/helperMongooseError");
 // const Joi = require("joi");
 
 const waterConsumptionSchema = new Schema({
@@ -9,14 +9,18 @@ const waterConsumptionSchema = new Schema({
 
 const dailyWaterSchema = new Schema(
   {
-    day: { type:String},
+    day: { type: String },
+    ownerID: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     waterIntake: [waterConsumptionSchema],
   },
   { versionKey: false, timestamps: true }
 );
 
-dailyWaterSchema.post("save",helperMongooseError);
-
+dailyWaterSchema.post("save", helperMongooseError);
 
 // const joiSchema = Joi.object({
 //   name: Joi.string().required(),
@@ -36,4 +40,4 @@ dailyWaterSchema.post("save",helperMongooseError);
 
 const Water = model("water", dailyWaterSchema);
 
-module.exports = Water ;
+module.exports = Water;
