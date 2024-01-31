@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const waterData = require("../controllers/waterData/waterData");
+const authenticate = require("../middlewares/autenticate");
 
-router.get("/:ownerId/water-data", waterData);
+router.get("/water-data", authenticate, waterData);
 
 module.exports = router;
