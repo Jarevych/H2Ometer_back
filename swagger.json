@@ -3,11 +3,7 @@
   "info": {
     "title": "H2Ometer",
     "version": "1.0.0",
-    "description": "Application for calculating the daily rate of water consumption.",
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT/"
-    }
+    "description": "Application for calculating the daily rate of water consumption."
   },
   "security": [
     {
@@ -23,11 +19,167 @@
   ],
   "tags": [
     {
+      "name": "Auth",
+      "description": "Endpoints user authentication"
+    },
+    {
       "name": "User",
-      "description": "User update endpoints"
+      "description": "Endpoint user update"
+    },
+    {
+      "name": "WaterRate",
+      "description": "Endpoint calculation of the daily rate of water consumption"
+    },
+    {
+      "name": "Water",
+      "description": "Endpoints addition of editing and deletion of the record on consumed water"
+    },
+    {
+      "name": "Today",
+      "description": "Endpoint calculation of the amount of water consumed and all records of water consumption by the user for the current day"
+    },
+    {
+      "name": "Month",
+      "description": "Endpoint the amount of water consumed for the selected month"
     }
   ],
+
   "paths": {
+    "/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Endpoint for user registration",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "User registration details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "email": "user@example.com",
+                  "name": "User Name"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid registration details"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Email already in use"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "User login",
+        "description": "Endpoint for user login",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "User login details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsIn..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid login details"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Email or password is wrong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "summary": "User logout",
+        "description": "Endpoint for user logout",
+        "tags": ["Auth"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Logout success"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid or expired token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/update/{userId}": {
       "patch": {
         "summary": "Update user information",
@@ -51,7 +203,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Update user information"
+                "$ref": "#/components/schemas/UpdateUserInformation"
               }
             }
           }
@@ -196,7 +348,31 @@
       }
     },
     "schemas": {
-      "Update user information": {
+      "UserRegistration": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "minLength": 6, "maxLength": 64 },
+          "name": { "type": "string", "maxLength": 255 }
+        },
+        "example": {
+          "email": "user@example.com",
+          "password": "password123",
+          "name": "User Name"
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" }
+        },
+        "example": {
+          "email": "user@example.com",
+          "password": "password123"
+        }
+      },
+      "UpdateUserInformation": {
         "type": "object",
         "properties": {
           "password": { "type": "string", "minLength": 6, "maxLength": 64 },
@@ -210,7 +386,7 @@
           "email": "new.email@example.com",
           "name": "New Name",
           "waterRate": 5,
-          "avatarURL": "https://example.com/avatar.jpg"
+          "avatarURL": "https://example.com/newavatar.jpg"
         }
       },
       "Update user avatar": {
