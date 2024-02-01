@@ -37,7 +37,6 @@ const userSchema = new Schema(
     },
     verifyToken: {
       type: String,
-      required: [true, "Verify token is required"],
     },
     passwordResetToken: {
       type: String,

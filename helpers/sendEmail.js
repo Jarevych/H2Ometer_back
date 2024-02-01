@@ -1,15 +1,12 @@
 const nodemailer = require("nodemailer");
-require("dotenv").config();
-
-const { MAILGUN_SMTP_PASSWORD, MAILGUN_SMTP_USER } = process.env;
 
 const nodemailerConfig = {
   host: "smtp.mailgun.org",
   port: 587,
   secure: false,
   auth: {
-    user: MAILGUN_SMTP_USER,
-    pass: MAILGUN_SMTP_PASSWORD,
+    user: process.env.MAILGUN_SMTP_USER,
+    pass: process.env.MAILGUN_SMTP_PASSWORD,
   },
 };
 

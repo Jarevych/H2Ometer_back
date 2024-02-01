@@ -4,13 +4,11 @@ const jwt = require("jsonwebtoken");
 const { HttpError, ctrlWrapper } = require("../../helpers");
 const { User } = require("../../models/user");
 
-const { JWT_KEY } = process.env;
-
 const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
 
-  const payload = jwt.verify(token, JWT_KEY);
+  const payload = jwt.verify(token, process.env.JWT_KEY);
 
   const user = await User.findOne({
     _id: payload.id,
