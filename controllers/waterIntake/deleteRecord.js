@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const deleteRecord = async (req, res) => {
   try {
-    const recordId = req.params.id;
+ recordId   const  = req.params.id;
     const { _id: ownerId } = req.user;
 
     const existingRecord = await Water.findOne({ 'waterIntake._id': mongoose.Types.ObjectId(recordId),ownerId });
