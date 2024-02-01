@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "H2Ometer",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Application for calculating the daily rate of water consumption.",
     "license": {
       "name": "MIT",
@@ -25,6 +25,10 @@
     {
       "name": "User",
       "description": "User update endpoints"
+    },
+    {
+      "name": "Project",
+      "description": "Project endpoints"
     }
   ],
   "paths": {
@@ -184,8 +188,196 @@
           }
         }
       }
+    },
+    "/api/water-intake": {
+      "post": {
+        "summary": "Create a new water intake record",
+        "parameters":[],
+        "description": "Create a new water intake record.",
+        "tags": ["Project"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterIntakeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "New record create successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Missing fields"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update water intake record",
+        "parameters":[{"in":"path","name":"recordId","type":"string","required":true,"description":"Record Id"}],
+        "description": "Update water intake record.",
+        "tags": ["Project"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterIntakeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No record found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No record found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete water intake record",
+        "parameters":[{"in":"path","name":"recordId","type":"string","required":true,"description":"Record Id"}],
+        "description": "Delete water intake record.",
+        "tags": ["Project"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "requestBody": { },
+        "responses": {
+          "200": {
+            "description": "Delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No record found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No record found"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  },
+    },
   "components": {
     "securitySchemes": {
       "Bearer": {
@@ -224,7 +416,36 @@
         "example": {
           "avatarURL": "https://example.com/avatar.jpg"
         }
-      }
+      },
+      "WaterIntakeRequest": {
+        "type": "object",
+        "required":["time","amount"],
+        "properties": {
+          "time": { "type": "string"},
+          "amount": { "type": "string"}
+        },
+        "example": {
+          "time": "07:00 AM",
+          "amount": "400"
+        }
+      },
+    
+    "WaterIntakeResponse": {
+      "type": "object",
+      "example": {
+        "day": "1/2/2024",
+        "ownerId": "65b9590358cb4fa335375e83",
+        "waterIntake": [
+            {
+                "time": "08:00 AM",
+                "amount": 400,
+                "_id": "65bb09d1f03456a86f8610dd"
+            }
+        ],
+        "_id": "65bb09d1f03456a86f8610dc",
+        "createdAt": "2024-02-01T03:02:41.908Z",
+        "updatedAt": "2024-02-01T03:02:41.908Z"
     }
   }
+  }}
 }

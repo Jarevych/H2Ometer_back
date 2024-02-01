@@ -8,8 +8,8 @@ const {authenticate}=require('../middlewares')
 
 router.post('/water-intake',authenticate, getCurrentDate, checkExistingRecord, createOrUpdateRecord);
 
-router.put('/water-intake/:id',authenticate, getRecordById, updateRecord);
+router.put('/water-intake/:recordId',authenticate, getRecordById, updateRecord);
 
-router.delete('/water-intake/:id',authenticate, deleteRecord);
+router.delete('/water-intake/:recordId',authenticate, deleteRecord);
 
 module.exports = router;
