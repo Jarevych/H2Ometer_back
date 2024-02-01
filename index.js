@@ -1,20 +1,17 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const path = require("path");
 const connectDB = require("./configs/database");
 const app = express();
 const morgan = require("morgan");
-const dotenv = require("dotenv");
-const cors = require("cors");
-
-const path = require("path");
-const HttpError = require("./helpers/httpError");
-const Water = require("./models/water");
-const waterIntakeRouter = require("./routes/waterIntake");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
-
 dotenv.config({
   path: path.resolve(__dirname, "main.env"),
 });
+const cors = require("cors");
+
+const waterIntakeRouter = require("./routes/waterIntake");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const authRouter = require("./routes/auth");
 

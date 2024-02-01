@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
-require("dotenv").config();
 
 const connectDB = async () => {
   try {
@@ -9,7 +8,7 @@ const connectDB = async () => {
       useUnifiedTopology: true,
       //   useCreateIndex: true,
     });
-    
+
     console.log(`Connected to MongoDB: ${connection.connection.host}`);
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);
