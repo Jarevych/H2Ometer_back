@@ -10,7 +10,6 @@ const deleteRecord = async (req, res) => {
     const existingRecord = await Water.findOne({ 'waterIntake._id': mongoose.Types.ObjectId(recordId),ownerId });
 
     if (!existingRecord) {
-      console.log('No record found');
       return res.status(404).json({ message: 'No record found' });
     }
 

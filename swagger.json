@@ -1,3 +1,4 @@
+
 {
   "openapi": "3.0.0",
   "info": {
@@ -336,6 +337,182 @@
           }
         }
       }
+    },
+    "/api/water-intake": {
+      "post": {
+        "summary": "Create a new water intake record",
+        "parameters":[],
+        "description": "Endpoint for create new record of intake water",
+        "tags": ["Water"],
+        "requestBody": {
+          "description": "Create record of intake water",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWaterIntake"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Record created successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "day": "1/2/2024",
+                  "ownerId": "65b9566c5216d264a04e71ec",
+                  "waterIntake": [
+                      {
+                          "time": "09:00 AM",
+                          "amount": 400,
+                          "_id": "65bb5de0169bcf9a76b1e5d5"
+                      }
+                  ],
+                  "_id": "65bb5de0169bcf9a76b1e5d4",
+                  "createdAt": "2024-02-01T09:01:20.867Z",
+                  "updatedAt": "2024-02-01T09:01:20.867Z"
+              }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Missing fields"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update water intake record",
+        "parameters":[{"in":"path","name":"recordId","type":"string","required":true}],
+        "description": "Endpoint for update record of intake water",
+        "tags": ["Water"],
+        "requestBody": {
+          "description": "Update record of intake water",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWaterIntake"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Record updated successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "day": "1/2/2024",
+                  "ownerId": "65b9566c5216d264a04e71ec",
+                  "waterIntake": [
+                      {
+                          "time": "09:00 AM",
+                          "amount": 400,
+                          "_id": "65bb5de0169bcf9a76b1e5d5"
+                      }
+                  ],
+                  "_id": "65bb5de0169bcf9a76b1e5d4",
+                  "createdAt": "2024-02-01T09:01:20.867Z",
+                  "updatedAt": "2024-02-01T09:01:20.867Z"
+              }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Missing fields"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete water intake record",
+        "parameters":[{"in":"path","name":"recordId","type":"string","required":true}],
+        "description": "Endpoint for delete record of intake water",
+        "tags": ["Water"],
+        "requestBody": {
+          "description": "Delete record of intake water",
+          "required": false,
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "Record deleted",
+            "content": {
+              "application/json": {
+                "example": {
+                  "day": "1/2/2024",
+                  "ownerId": "65b9566c5216d264a04e71ec",
+                  "waterIntake": [
+                      {
+                          "time": "09:00 AM",
+                          "amount": 400,
+                          "_id": "65bb5de0169bcf9a76b1e5d5"
+                      }
+                  ],
+                  "_id": "65bb5de0169bcf9a76b1e5d4",
+                  "createdAt": "2024-02-01T09:01:20.867Z",
+                  "updatedAt": "2024-02-01T09:01:20.867Z"
+              }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No record found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -400,6 +577,14 @@
         "example": {
           "avatarURL": "https://example.com/avatar.jpg"
         }
+      },
+      "CreateWaterIntake": {
+        "type": "object",
+        "properties": {
+          "time": { "type": "string"},
+          "amount": { "type": "string" }
+        },
+        "example": {"time":"09:00 AM","amount":"400"}
       }
     }
   }
