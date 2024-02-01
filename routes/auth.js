@@ -14,4 +14,16 @@ router.post("/signin", validateBody(schemas.loginShema), ctrl.login);
 
 router.post("/logout", authenticate, ctrl.logout);
 
+router.post(
+  "/forgot-password",
+  validateBody(schemas.emailSchema),
+  ctrl.requestPasswordReset
+);
+
+router.post(
+  "/reset-password/:token",
+  validateBody(schemas.newPasswordSchema),
+  ctrl.resetPassword
+);
+
 module.exports = router;
