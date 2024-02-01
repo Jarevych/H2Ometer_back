@@ -24,7 +24,7 @@
     },
     {
       "name": "User",
-      "description": "Endpoint user update"
+      "description": "Endpoint user"
     },
     {
       "name": "WaterRate",
@@ -32,7 +32,7 @@
     },
     {
       "name": "Water",
-      "description": "Endpoints addition of editing and deletion of the record on consumed water"
+      "description": "Endpoints for water data"
     },
     {
       "name": "Today",
@@ -173,6 +173,53 @@
               "application/json": {
                 "example": {
                   "error": "Invalid or expired token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "summary": "Get current user information",
+        "description": "Endpoint information about the current user",
+        "tags": ["User"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "email": "user@example.com",
+                  "name": "User Name",
+                  "gender": "male or famale",
+                  "avatar": "https://example.com/avatar.jpg"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
                 }
               }
             }
@@ -336,6 +383,87 @@
           }
         }
       }
+    },
+    "/users/{ownerId}/water-data": {
+      "get": {
+        "summary": "Get water data for a specific user",
+        "description": "Endpoint for retrieving water consumption data for a specific user",
+        "tags": ["Water"],
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            }
+          },
+          {
+            "name": "day",
+            "in": "query",
+            "description": "Day to retrieve data for (use 'today' for the current day)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Month to retrieve data for (use 'currentMonth' for the current month)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Water data retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "ownerId": "userId",
+                  "day": "dayValue",
+                  "month": "monthValue",
+                  "waterData": [
+                    {
+                      "time": "10:00 AM",
+                      "amount": 500
+                    },
+                    {
+                      "time": "02:00 PM",
+                      "amount": 300
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No data found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No data found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -389,7 +517,7 @@
           "avatarURL": "https://example.com/newavatar.jpg"
         }
       },
-      "Update user avatar": {
+      "UpdateUserAvatar": {
         "type": "object",
         "properties": {
           "avatarURL": {
@@ -399,6 +527,13 @@
         },
         "example": {
           "avatarURL": "https://example.com/avatar.jpg"
+        }
+      },
+      "WaterConsumption": {
+        "type": "object",
+        "properties": {
+          "time": { "type": "string", "required": true },
+          "amount": { "type": "number", "required": true }
         }
       }
     }
