@@ -24,7 +24,7 @@
     },
     {
       "name": "User",
-      "description": "Endpoint user update"
+      "description": "Endpoint user"
     },
     {
       "name": "WaterRate",
@@ -32,7 +32,7 @@
     },
     {
       "name": "Water",
-      "description": "Endpoints addition of editing and deletion of the record on consumed water"
+      "description": "Endpoints for water data"
     },
     {
       "name": "Today",
@@ -173,6 +173,53 @@
               "application/json": {
                 "example": {
                   "error": "Invalid or expired token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "summary": "Get current user information",
+        "description": "Endpoint information about the current user",
+        "tags": ["User"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "email": "user@example.com",
+                  "name": "User Name",
+                  "gender": "male or famale",
+                  "avatar": "https://example.com/avatar.jpg"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Access denied. Token not provided or Invalid token"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
                 }
               }
             }
@@ -336,6 +383,263 @@
           }
         }
       }
+    },
+    "/users/{ownerId}/water-data": {
+      "get": {
+        "summary": "Get water data for a specific user",
+        "description": "Endpoint for retrieving water consumption data for a specific user",
+        "tags": ["Water"],
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId"
+            }
+          },
+          {
+            "name": "day",
+            "in": "query",
+            "description": "Day to retrieve data for (use 'today' for the current day)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Month to retrieve data for (use 'currentMonth' for the current month)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Water data retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "ownerId": "userId",
+                  "day": "dayValue",
+                  "month": "monthValue",
+                  "waterData": [
+                    {
+                      "time": "10:00 AM",
+                      "amount": 500
+                    },
+                    {
+                      "time": "02:00 PM",
+                      "amount": 300
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No data found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No data found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/water-intake": {
+      "post": {
+        "summary": "Create a new water intake record",
+        "parameters":[],
+        "description": "Endpoint for create new record of intake water",
+        "tags": ["Water"],
+        "requestBody": {
+          "description": "Create record of intake water",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWaterIntake"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Record created successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "day": "1/2/2024",
+                  "ownerId": "65b9566c5216d264a04e71ec",
+                  "waterIntake": [
+                      {
+                          "time": "09:00 AM",
+                          "amount": 400,
+                          "_id": "65bb5de0169bcf9a76b1e5d5"
+                      }
+                  ],
+                  "_id": "65bb5de0169bcf9a76b1e5d4",
+                  "createdAt": "2024-02-01T09:01:20.867Z",
+                  "updatedAt": "2024-02-01T09:01:20.867Z"
+              }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Missing fields"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update water intake record",
+        "parameters":[{"in":"path","name":"recordId","type":"string","required":true}],
+        "description": "Endpoint for update record of intake water",
+        "tags": ["Water"],
+        "requestBody": {
+          "description": "Update record of intake water",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWaterIntake"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Record updated successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "day": "1/2/2024",
+                  "ownerId": "65b9566c5216d264a04e71ec",
+                  "waterIntake": [
+                      {
+                          "time": "09:00 AM",
+                          "amount": 400,
+                          "_id": "65bb5de0169bcf9a76b1e5d5"
+                      }
+                  ],
+                  "_id": "65bb5de0169bcf9a76b1e5d4",
+                  "createdAt": "2024-02-01T09:01:20.867Z",
+                  "updatedAt": "2024-02-01T09:01:20.867Z"
+              }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Missing fields"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete water intake record",
+        "parameters":[{"in":"path","name":"recordId","type":"string","required":true}],
+        "description": "Endpoint for delete record of intake water",
+        "tags": ["Water"],
+        "requestBody": {
+          "description": "Delete record of intake water",
+          "required": false,
+          "content": { }
+        },
+        "responses": {
+          "200": {
+            "description": "Record deleted",
+            "content": {
+              "application/json": {
+                "example": {
+                  "day": "1/2/2024",
+                  "ownerId": "65b9566c5216d264a04e71ec",
+                  "waterIntake": [
+                      {
+                          "time": "09:00 AM",
+                          "amount": 400,
+                          "_id": "65bb5de0169bcf9a76b1e5d5"
+                      }
+                  ],
+                  "_id": "65bb5de0169bcf9a76b1e5d4",
+                  "createdAt": "2024-02-01T09:01:20.867Z",
+                  "updatedAt": "2024-02-01T09:01:20.867Z"
+              }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "No record found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Internal Server Error or specific error message"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -389,7 +693,7 @@
           "avatarURL": "https://example.com/newavatar.jpg"
         }
       },
-      "Update user avatar": {
+      "UpdateUserAvatar": {
         "type": "object",
         "properties": {
           "avatarURL": {
@@ -400,6 +704,21 @@
         "example": {
           "avatarURL": "https://example.com/avatar.jpg"
         }
+      },
+      "WaterConsumption": {
+        "type": "object",
+        "properties": {
+          "time": { "type": "string", "required": true },
+          "amount": { "type": "number", "required": true }
+        }
+      },
+      "CreateWaterIntake": {
+        "type": "object",
+        "properties": {
+          "time": { "type": "string"},
+          "amount": { "type": "string" }
+        },
+        "example": {"time":"09:00 AM","amount":"400"}
       }
     }
   }
