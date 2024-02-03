@@ -3,7 +3,7 @@
   "info": {
     "title": "H2Ometer",
     "version": "1.0.0",
-    "description": "Application for calculating the daily rate of water consumption."
+    "description": "H2Ometer is an application designed to calculate the daily water consumption norm.<br>The app allows users to monitor their water intake, taking into account the time and quantity of fluid consumed.<br>The H2Ometer project enables users to conveniently and efficiently keep track of and control their daily water consumption."
   },
   "security": [
     {
@@ -26,21 +26,14 @@
       "name": "User",
       "description": "Endpoint user"
     },
-    {
-      "name": "WaterRate",
-      "description": "Endpoint calculation of the daily rate of water consumption"
-    },
+
     {
       "name": "Water",
       "description": "Endpoints for water data"
     },
     {
-      "name": "Today",
-      "description": "Endpoint calculation of the amount of water consumed and all records of water consumption by the user for the current day"
-    },
-    {
-      "name": "Month",
-      "description": "Endpoint the amount of water consumed for the selected month"
+      "name": "Today&Month",
+      "description": "Endpoint of all consumption by the user for the selected day & month"
     }
   ],
 
@@ -169,6 +162,97 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Invalid or expired token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forgot-password": {
+      "post": {
+        "summary": "Request user password reset",
+        "description": "Endpoint for requesting a password reset",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "Email details for password reset",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email for password reset sent",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Email for password reset sent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "User not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reset-password/{token}": {
+      "post": {
+        "summary": "Reset user password",
+        "description": "Endpoint for resetting user password",
+        "tags": ["Auth"],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Token received for password reset",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New password details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPasswordDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password successfully reset",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Password successfully reset"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "example": {
@@ -388,7 +472,7 @@
       "get": {
         "summary": "Get water data for a specific user",
         "description": "Endpoint for retrieving water consumption data for a specific user",
-        "tags": ["Water"],
+        "tags": ["Today&Month"],
         "parameters": [
           {
             "name": "ownerId",
@@ -468,7 +552,7 @@
     "/api/water-intake": {
       "post": {
         "summary": "Create a new water intake record",
-        "parameters":[],
+        "parameters": [],
         "description": "Endpoint for create new record of intake water",
         "tags": ["Water"],
         "requestBody": {
@@ -491,16 +575,16 @@
                   "day": "1/2/2024",
                   "ownerId": "65b9566c5216d264a04e71ec",
                   "waterIntake": [
-                      {
-                          "time": "09:00 AM",
-                          "amount": 400,
-                          "_id": "65bb5de0169bcf9a76b1e5d5"
-                      }
+                    {
+                      "time": "09:00 AM",
+                      "amount": 400,
+                      "_id": "65bb5de0169bcf9a76b1e5d5"
+                    }
                   ],
                   "_id": "65bb5de0169bcf9a76b1e5d4",
                   "createdAt": "2024-02-01T09:01:20.867Z",
                   "updatedAt": "2024-02-01T09:01:20.867Z"
-              }
+                }
               }
             }
           },
@@ -528,7 +612,14 @@
       },
       "put": {
         "summary": "Update water intake record",
-        "parameters":[{"in":"path","name":"recordId","type":"string","required":true}],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recordId",
+            "type": "string",
+            "required": true
+          }
+        ],
         "description": "Endpoint for update record of intake water",
         "tags": ["Water"],
         "requestBody": {
@@ -551,16 +642,16 @@
                   "day": "1/2/2024",
                   "ownerId": "65b9566c5216d264a04e71ec",
                   "waterIntake": [
-                      {
-                          "time": "09:00 AM",
-                          "amount": 400,
-                          "_id": "65bb5de0169bcf9a76b1e5d5"
-                      }
+                    {
+                      "time": "09:00 AM",
+                      "amount": 400,
+                      "_id": "65bb5de0169bcf9a76b1e5d5"
+                    }
                   ],
                   "_id": "65bb5de0169bcf9a76b1e5d4",
                   "createdAt": "2024-02-01T09:01:20.867Z",
                   "updatedAt": "2024-02-01T09:01:20.867Z"
-              }
+                }
               }
             }
           },
@@ -588,13 +679,20 @@
       },
       "delete": {
         "summary": "Delete water intake record",
-        "parameters":[{"in":"path","name":"recordId","type":"string","required":true}],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "recordId",
+            "type": "string",
+            "required": true
+          }
+        ],
         "description": "Endpoint for delete record of intake water",
         "tags": ["Water"],
         "requestBody": {
           "description": "Delete record of intake water",
           "required": false,
-          "content": { }
+          "content": {}
         },
         "responses": {
           "200": {
@@ -605,16 +703,16 @@
                   "day": "1/2/2024",
                   "ownerId": "65b9566c5216d264a04e71ec",
                   "waterIntake": [
-                      {
-                          "time": "09:00 AM",
-                          "amount": 400,
-                          "_id": "65bb5de0169bcf9a76b1e5d5"
-                      }
+                    {
+                      "time": "09:00 AM",
+                      "amount": 400,
+                      "_id": "65bb5de0169bcf9a76b1e5d5"
+                    }
                   ],
                   "_id": "65bb5de0169bcf9a76b1e5d4",
                   "createdAt": "2024-02-01T09:01:20.867Z",
                   "updatedAt": "2024-02-01T09:01:20.867Z"
-              }
+                }
               }
             }
           },
@@ -676,6 +774,24 @@
           "password": "password123"
         }
       },
+      "EmailDetails": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" }
+        },
+        "example": {
+          "email": "user@example.com"
+        }
+      },
+      "NewPasswordDetails": {
+        "type": "object",
+        "properties": {
+          "newPassword": { "type": "string", "minLength": 8, "maxLength": 64 }
+        },
+        "example": {
+          "newPassword": "newPassword123"
+        }
+      },
       "UpdateUserInformation": {
         "type": "object",
         "properties": {
@@ -715,10 +831,10 @@
       "CreateWaterIntake": {
         "type": "object",
         "properties": {
-          "time": { "type": "string"},
+          "time": { "type": "string" },
           "amount": { "type": "string" }
         },
-        "example": {"time":"09:00 AM","amount":"400"}
+        "example": { "time": "09:00 AM", "amount": "400" }
       }
     }
   }
