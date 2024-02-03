@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const { HttpError, sendEmail, ctrlWrapper } = require("../../helpers");
+const { HttpError, ctrlWrapper } = require("../../helpers");
 const { User } = require("../../models/user");
-
+const { sendEmail } = require("../../services");
 
 const requestPasswordReset = async (req, res) => {
   const { email } = req.body;
@@ -12,9 +12,13 @@ const requestPasswordReset = async (req, res) => {
     throw HttpError(404, "User not found");
   }
 
+  if (!user.verify) {
+    throw HttpError(403, "Email not verified");
+  }
+
   const payload = { id: user._id };
   const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });
-  console.log(token);
+
   user.passwordResetToken = token;
   await user.save();
 

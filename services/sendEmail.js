@@ -1,19 +1,19 @@
 const nodemailer = require("nodemailer");
 
 const nodemailerConfig = {
-  host: "smtp.mailgun.org",
-  port: 587,
-  secure: false,
+  host: "smtp.ukr.net",
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.MAILGUN_SMTP_USER,
-    pass: process.env.MAILGUN_SMTP_PASSWORD,
+    user: "h2ometer@ukr.net",
+    pass: process.env.UKRNET_PASSWORD,
   },
 };
 
 const transport = nodemailer.createTransport(nodemailerConfig);
 
 const sendEmail = async (data) => {
-  const email = { ...data, from: "alexandr150983@meta.ua" };
+  const email = { ...data, from: "h2ometer@ukr.net" };
   console.log(email);
   await transport
     .sendMail(email)

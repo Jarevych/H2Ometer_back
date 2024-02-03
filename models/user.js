@@ -35,8 +35,13 @@ const userSchema = new Schema(
     avatar: {
       type: String,
     },
-    verifyToken: {
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
       type: String,
+      required: [false, "Verify token is required"],
     },
     passwordResetToken: {
       type: String,
@@ -51,6 +56,7 @@ const registerSchema = Joi.object({
   password: Joi.string().min(8).max(64).required(),
   email: Joi.string().email().required(),
   name: Joi.string().max(32),
+  token: Joi.string(),
 });
 
 const loginShema = Joi.object({
@@ -68,6 +74,11 @@ const updateSchema = Joi.object({
 
 const emailSchema = Joi.object({
   email: Joi.string().email().required(),
+  password: Joi.string().min(8).max(64).required(),
+});
+
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
 });
 
 const newPasswordSchema = Joi.object({
@@ -80,6 +91,7 @@ const schemas = {
   updateSchema,
   emailSchema,
   newPasswordSchema,
+  forgotPasswordSchema,
 };
 
 const User = model("user", userSchema);

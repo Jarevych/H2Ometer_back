@@ -13,6 +13,7 @@ const resetPassword = async (req, res) => {
   const user = await User.findOne({
     _id: payload.id,
     passwordResetToken: token,
+    verify: true,
   });
 
   if (!user) {

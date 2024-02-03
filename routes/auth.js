@@ -15,8 +15,16 @@ router.post("/signin", validateBody(schemas.loginShema), ctrl.login);
 router.post("/logout", authenticate, ctrl.logout);
 
 router.post(
-  "/forgot-password",
+  "/verify",
   validateBody(schemas.emailSchema),
+  ctrl.resendVerifyEmail
+);
+
+router.get("/verify/:verificationToken", ctrl.verifyEmail);
+
+router.post(
+  "/forgot-password",
+  validateBody(schemas.forgotPasswordSchema),
   ctrl.requestPasswordReset
 );
 
