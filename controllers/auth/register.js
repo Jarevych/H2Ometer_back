@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const { nanoid } = require("nanoid");
 
 const { User } = require("../../models/user");
-const { HttpError, ctrlWrapper} = require("../../helpers");
+const { HttpError, ctrlWrapper } = require("../../helpers");
 const { sendEmail } = require("../../services");
 
 const register = async (req, res) => {
