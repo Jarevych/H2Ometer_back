@@ -43,7 +43,7 @@ const waterData = async (req, res) => {
       day: dayValue,
       month: monthValue,
       drunkedWater,
-    });
+    });fss
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
