@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const { handleMongooseError } = require("../helpers");
+const { helperMongooseError } = require("../helpers");
 
 const userSchema = new Schema(
   {
@@ -54,7 +54,7 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-userSchema.post("save", handleMongooseError);
+userSchema.post("save", helperMongooseError);
 
 const registerSchema = Joi.object({
   password: Joi.string().min(8).max(64).required(),
@@ -69,11 +69,21 @@ const loginShema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-  // password: Joi.string().min(8).max(64).required(),
+  password: Joi.string().min(8).max(64),
+  oldPassword: Joi.string().min(8).max(64).when('password', {
+    is: Joi.exist(),
+    then: Joi.required(),
+  }),
   email: Joi.string().email(),
   name: Joi.string().max(32),
   waterRate: Joi.number().min(1).max(15000),
   avatarURL: Joi.string(),
+  gender: Joi.string().valid('male', 'female', 'other'),
+}).when(Joi.object({ password: Joi.exist() }).unknown(), {
+  then: Joi.object({
+    password: Joi.string().min(8).max(64).required(),
+    oldPassword: Joi.string().min(8).max(64).required(),
+  }),
 });
 
 const emailSchema = Joi.object({
