@@ -10,7 +10,9 @@ dotenv.config({
 const cors = require("cors");
 
 const waterIntakeRouter = require("./routes/waterIntake");
+
 const swaggerUi = require("swagger-ui-express");
+
 const swaggerDocument = require("./swagger.json");
 
 const authRouter = require("./routes/auth");
@@ -34,8 +36,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", waterIntakeRouter);
 
 app.use("/users", authRouter, userRouter, updateRouter);
-// app.use("/users", );
-// app.use("/users/update", );
+
 app.use("/api", waterData);
 
 app.use((req, res) => {
