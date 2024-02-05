@@ -46,6 +46,10 @@ const userSchema = new Schema(
     passwordResetToken: {
       type: String,
     },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+    },
   },
   { versionKey: false, timestamps: true }
 );
