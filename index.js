@@ -17,7 +17,8 @@ const authRouter = require("./routes/auth");
 
 const userRouter = require("./routes/user");
 
-const updateRouter = require("./routes/userUpdate");
+const updateRouter = require("./routes/user");
+
 const { waterData } = require("./controllers/waterData/waterData");
 
 connectDB();
@@ -25,6 +26,7 @@ connectDB();
 app.use(cors());
 
 app.use(morgan("dev"));
+
 app.use(express.json());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

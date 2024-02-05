@@ -2,6 +2,7 @@ const { User } = require("../../models/user");
 const { updateSchema } = require("../../models/user").schemas;
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const { ctrlWrapper } = require("../../helpers");
 
 const userUpdateController = async (req, res, next) => {
   try {
@@ -49,4 +50,4 @@ const userUpdateController = async (req, res, next) => {
   }
 };
 
-module.exports = userUpdateController;
+module.exports = {userUpdateController: ctrlWrapper(userUpdateController)};
