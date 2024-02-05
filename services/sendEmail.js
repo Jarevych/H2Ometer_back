@@ -5,7 +5,7 @@ const nodemailerConfig = {
   port: 465,
   secure: true,
   auth: {
-    user: "h2ometer@ukr.net",
+    user: process.env.USER_UKRNET,
     pass: process.env.UKRNET_PASSWORD,
   },
 };
