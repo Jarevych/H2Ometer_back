@@ -13,6 +13,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Email is required"],
       unique: true,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please fill a valid email address",
+      ],
     },
     gender: {
       type: String,
@@ -56,7 +60,6 @@ const registerSchema = Joi.object({
   password: Joi.string().min(8).max(64).required(),
   email: Joi.string().email().required(),
   name: Joi.string().max(32),
-  token: Joi.string(),
 });
 
 const loginShema = Joi.object({
