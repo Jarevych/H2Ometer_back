@@ -31,9 +31,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api", waterIntakeRouter);
 
-app.use("/users", authRouter);
-app.use("/users", userRouter);
-app.use("/users/update", updateRouter);
+app.use("/users", authRouter, userRouter, updateRouter);
+// app.use("/users", );
+// app.use("/users/update", );
 app.use("/api", waterData);
 
 app.use((req, res) => {

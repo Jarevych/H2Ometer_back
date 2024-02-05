@@ -65,7 +65,7 @@ const loginShema = Joi.object({
 });
 
 const updateSchema = Joi.object({
-  password: Joi.string().min(8).max(64).required(),
+  // password: Joi.string().min(8).max(64).required(),
   email: Joi.string().email(),
   name: Joi.string().max(32),
   waterRate: Joi.number().min(1).max(15000),

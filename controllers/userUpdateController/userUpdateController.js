@@ -5,8 +5,9 @@ const bcrypt = require("bcrypt");
 
 const userUpdateController = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-
+    const { _id } = req.user;
+    console.log(_id)
+    const userId = req.user._id
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       res.status(400);
       throw new Error("Invalid userId format");
