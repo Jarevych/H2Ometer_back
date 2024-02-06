@@ -15,6 +15,9 @@
   "servers": [
     {
       "url": "http://localhost:3001"
+    },
+    {
+      "url": "https://github.com/Jarevych/H2Ometer_back"
     }
   ],
   "tags": [
@@ -43,6 +46,7 @@
         "summary": "Register a new user",
         "description": "Endpoint for user registration",
         "tags": ["Auth"],
+        "security": [],
         "requestBody": {
           "description": "User registration details",
           "required": true,
@@ -94,6 +98,7 @@
         "summary": "User login",
         "description": "Endpoint for user login",
         "tags": ["Auth"],
+        "security": [],
         "requestBody": {
           "description": "User login details",
           "required": true,
@@ -311,25 +316,23 @@
         }
       }
     },
-    "/users/update/{userId}": {
+    "/users/update": {
       "patch": {
         "summary": "Update user information",
-        "description": "Endpoint for updating user details",
         "tags": ["User"],
         "parameters": [
           {
-            "name": "userId",
-            "in": "path",
-            "description": "ID of the user to update",
+            "in": "header",
+            "name": "Authorization",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "objectId"
-            }
+              "format": "Bearer <token>"
+            },
+            "description": "JWT token"
           }
         ],
         "requestBody": {
-          "description": "Updated user information",
           "required": true,
           "content": {
             "application/json": {
@@ -353,7 +356,7 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Bad request",
             "content": {
               "application/json": {
                 "example": {
@@ -362,18 +365,8 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Access denied. Token not provided or Invalid token"
-                }
-              }
-            }
-          },
           "404": {
-            "description": "Not Found",
+            "description": "User not found",
             "content": {
               "application/json": {
                 "example": {
@@ -383,7 +376,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error",
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "example": {
@@ -795,14 +788,12 @@
       "UpdateUserInformation": {
         "type": "object",
         "properties": {
-          "password": { "type": "string", "minLength": 6, "maxLength": 64 },
           "email": { "type": "string", "format": "email" },
           "name": { "type": "string", "maxLength": 32 },
           "waterRate": { "type": "number", "minimum": 1, "maximum": 15000 },
           "avatarURL": { "type": "string" }
         },
         "example": {
-          "password": "newPassword123",
           "email": "new.email@example.com",
           "name": "New Name",
           "waterRate": 5,
