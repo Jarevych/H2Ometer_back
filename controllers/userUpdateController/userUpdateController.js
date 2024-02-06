@@ -9,6 +9,7 @@ const userUpdateController = async (req, res, next) => {
     const { _id } = req.user;
     console.log(_id)
     const userId = req.user._id
+    oldUserPassword = req.user.password
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       res.status(400);
       throw new Error("Invalid userId format");
@@ -21,8 +22,18 @@ const userUpdateController = async (req, res, next) => {
       throw new Error(error.details[0].message);
     }
 
-    if (req.body.password) {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const { oldPassword, password } = req.body;
+
+    if(oldPassword) {
+      const oldPasswordCompare = await bcrypt.compare(oldPassword, oldUserPassword);
+      if(!oldPasswordCompare) {
+        res.status(401);
+        throw new Error("Old password is incorrect");
+      }
+    }
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
       req.body.password = hashedPassword;
     }
 
