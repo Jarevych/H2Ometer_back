@@ -2,7 +2,6 @@ const { HttpError, ctrlWrapper } = require("../../helpers");
 const { User } = require("../../models/user");
 const { sendEmail } = require("../../services");
 
-
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -19,7 +18,7 @@ const resendVerifyEmail = async (req, res) => {
     html: `
     <p>Hello,</p>
     <p>Thank you for registering. Please click the link below to verify your email address:</p>
-    <a target="_blank" href="${process.env.BASE_URL_FRONT}/users/verify/${user.verificationToken}">Verify Email</a>
+    <a target="_blank" href="${process.env.BASE_URL_FRONT}/verify?token=${user.verificationToken}">Verify Email</a>
     <p>If you did not create an account, no further action is required.</p>
     <p>Regards,<br>Your Team</p>
   `,

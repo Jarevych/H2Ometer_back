@@ -22,7 +22,7 @@ const requestPasswordReset = async (req, res) => {
   user.passwordResetToken = token;
   await user.save();
 
-  const resetLink = `${process.env.BASE_URL_FRONT}/users/reset-password/${token}`;
+  const resetLink = `${process.env.BASE_URL_FRONT}/reset-password?token=${token}`;
 
   const emailData = {
     to: email,
