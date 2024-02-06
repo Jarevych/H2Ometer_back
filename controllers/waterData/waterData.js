@@ -4,7 +4,7 @@ const Water = require("../../models/water");
 const waterData = async (req, res) => {
   try {
     const { day, month } = req.query;
-    const { _id: ownerId } = req.user || {};
+    const { _id: ownerId } = req.user;
     const today = new Date().getDate();
     const startOfMonth = new Date(`2024-${month}-01T00:00:00Z`);
     const endOfMonth = new Date(startOfMonth);
