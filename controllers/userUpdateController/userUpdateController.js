@@ -40,7 +40,7 @@ const userUpdateController = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { ...req.body },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true, projection: { token: 0, verificationToken: 0, createdAt: 0, updatedAt: 0, } }
     );
 
     if (!updatedUser) {
