@@ -48,5 +48,5 @@ const googleAuth = async(req, res) => {
 
 module.exports = {
   login: ctrlWrapper(login),
-  googleAuth: ctrlWrapper(googleAuth)
+  googleAuth: ctrlWrapper(googleAuth),
 };

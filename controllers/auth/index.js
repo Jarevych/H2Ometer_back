@@ -1,5 +1,5 @@
 const { register } = require("./register");
-const { login } = require("./login");
+const { login, googleAuth } = require("./login");
 const { logout } = require("./logout");
 const { requestPasswordReset } = require("./requestPasswordReset");
 const { resetPassword } = require("./resetPassword");
@@ -14,4 +14,5 @@ module.exports = {
   resetPassword,
   verifyEmail,
   resendVerifyEmail,
+  googleAuth,
 };
