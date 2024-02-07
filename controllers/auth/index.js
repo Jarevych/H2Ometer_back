@@ -1,10 +1,11 @@
 const { register } = require("./register");
-const { login, googleAuth } = require("./login");
+const { login,  } = require("./login");
 const { logout } = require("./logout");
 const { requestPasswordReset } = require("./requestPasswordReset");
 const { resetPassword } = require("./resetPassword");
 const { verifyEmail } = require("./verifyEmail");
 const { resendVerifyEmail } = require("./resendVerifyEmail.js");
+const {googleAuth} = require("./googleAuth.js")
 
 module.exports = {
   register,

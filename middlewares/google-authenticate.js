@@ -12,17 +12,21 @@ const googleParams = {
     passReqToCallback: true,
 };
 
-const googleCallback = async(req, token, profile, done) => {
+const googleCallback = async(req, accessToken, refreshToken, profile, done,) => {
     try {
         const {email, displayName } = profile;
+        console.log(email, displayName)
         const user = await User.findOne({email})
+        console.log("user", user)
         if(user) {
           return done(null, user)
         }
         const password = await bcrypt.hash(nanoid(), 10)
         const newUser = await User.create({email, password, name: displayName})
+        console.log("newUser",newUser)
+
         done(null, newUser);
-        
+
     } catch (error) {
         done(error, false);
         console.log(error)
